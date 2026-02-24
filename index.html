@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ultime Notizie ANSA</title>
+<meta http-equiv="refresh" content="300">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  margin: 10px;
+}
+h3 {
+  margin-bottom: 10px;
+}
+li {
+  margin-bottom: 6px;
+}
+.time {
+  font-weight: bold;
+  margin-right: 6px;
+}
+</style>
+</head>
+<body>
+
+<h3>Ultime Notizie ANSA</h3>
+<ul id="news"></ul>
+
+<script>
+fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.ansa.it/sito/ansait_rss.xml')
+.then(response => response.json())
+.then(data => {
+  let list = document.getElementById('news');
+  data.items.slice(0, 20).forEach(item => {
+    let li = document.createElement('li');
+    let time = new Date(item.pubDate).toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
+    li.innerHTML = `<span class="time">${time}</span> - ${item.title}`;
+    list.appendChild(li);
+  });
+});
+</script>
+
+</body>
+</html>
